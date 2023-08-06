@@ -3,6 +3,8 @@ import './index.css'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
+import Vans from './pages/vans'
+import "./server"
 
 
 
@@ -13,20 +15,19 @@ function App() {
   return (
     <>
       <BrowserRouter>
-
-
         <header>
-          <Link to='/Home'>TravelVan</Link>
+          <Link className='site-logo' to='/Home'>TravelVan</Link>
           <nav>
-            <Link to='/home'>Home</Link>
             <Link to='/about'>About</Link>
+            <Link to='/vans'>Vans</Link>
           </nav>
         </header>
 
 
         <Routes>
-          <Route path='/home' element={<Home />} />
+          <Route path='/' element={<Home />} />
           <Route path='/about' element={<About />} />
+          <Route path='/vans' element={<Vans />} />
         </Routes>
       </BrowserRouter>
     </>

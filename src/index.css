@@ -42,9 +42,14 @@ header a {
 
 header a:hover {
   color: #161616;
-  text-decoration: underline;
+  
 }
-
+a:is(:hover,:active,:focus){
+  color:#161616 ;
+  font-weight: bold;
+  text-decoration: none;
+  
+}
 .link-button {
   display: inline-block;
   text-align: center;
@@ -288,3 +293,15 @@ i[class*='van-type-'] {
   margin-left: 1.5rem;
 }
 
+.footer{
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+.active-link{
+  border-bottom: 1px solid red;
+  color: #161616;
+  text-decoration: none
+}

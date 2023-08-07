@@ -6,9 +6,9 @@ const HostLayOut = () => {
   return (
     <div>
       <nav className='host-nav'>
-        <Link to='/host'>DashBoard</Link>
-        <Link to='income'>Income</Link>
-        <Link to='reviews'>Reviews</Link>
+        <Link to='/host'  className={({isActive})=> isActive ? 'active-link':null}>DashBoard</Link>
+        <Link to='income'  className={({isActive})=> isActive ? 'active-link':null}>Income</Link>
+        <Link to='reviews'  className={({isActive})=> isActive ? 'active-link':null}>Reviews</Link>
       </nav>
       <Outlet />
     </div>

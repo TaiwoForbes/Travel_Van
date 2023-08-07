@@ -10,6 +10,7 @@ import Income from './pages/host/Income'
 import Reviews from './pages/host/Reviews'
 import "./server"
 import LayOut from './component/LayOut'
+import HostLayOut from './component/HostLayOut'
 
 
 
@@ -20,20 +21,18 @@ function App() {
   return (
     <>
       <BrowserRouter>
-
-
-
         <Routes>
-          <Route element={<LayOut />}>
-            <Route path='/home' element={<Home />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/vans' element={<Vans />} />
-            <Route path='/vans/:id' element={<VanDetail />} />
+          <Route path='/' element={<LayOut />}>
+            <Route index element={<Home />} />
+            <Route path='about' element={<About />} />
+            <Route path='vans' element={<Vans />} />
+            <Route path='vans/:id' element={<VanDetail />} />
 
-            
-            <Route path='/host' element={<DashBoard />} >
-              <Route path='/host/income' element={<Income />} />
-              <Route path='/host/reviews' element={<Reviews />} />
+
+            <Route path="host" element={<HostLayOut />}>
+              <Route index element={<DashBoard />} />
+              <Route path="income" element={<Income />} />
+              <Route path="reviews" element={<Reviews />} />
             </Route>
           </Route>
         </Routes>

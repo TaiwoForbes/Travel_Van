@@ -5,14 +5,13 @@ import Footer from './Footer'
 
 const LayOut = () => {
   return (
-    <div>
-      <Header />
-      <main>
-        <Outlet />
-      </main>
-
-      <Footer />
-    </div>
+    <div className="site-wrapper">
+            <Header />
+            <main>
+                <Outlet />
+            </main>
+            <Footer />
+        </div>
   )
 }
 

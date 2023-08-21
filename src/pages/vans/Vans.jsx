@@ -1,15 +1,19 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link,useSearchParams } from 'react-router-dom'
 
 
 const Vans = () => {
     const [vans, setVans] = useState([])
+    const [search,setSearch] = useSearchParams()
+    const typeFilter = search.get('type')
+    console.log(typeFilter)
+
 
     useEffect(() => {
         fetch('api/vans')
             .then(res => res.json())
-            .then(data => setVans(data.vans)) //Get the data of vans
+            .then(data => setVans(data.vans)) //Get data of vans
     }, [])
 
     const vanElements = vans.map(van => {
@@ -26,7 +30,7 @@ const Vans = () => {
             </div>
         )
     })
-    console.log(vans);
+    
     return (
         <div className='van-list-container'>
             <h1>Explore Our Van Options</h1>

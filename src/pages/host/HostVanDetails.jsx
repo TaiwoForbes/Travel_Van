@@ -1,26 +1,59 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,Link, Outlet,NavLink } from "react-router-dom";
 
-function VanDetailSection({ van }) {
-    return (
-        <div className="host-van-detail-layout-container">
-            <div className="host-van-detail">
-                <img src={van.imageUrl} alt={van.name} />
-                <div className="host-van-detail-info-text">
-                    <i className={`van-type van-type-${van.type}`}>
-                        {van.type}
-                    </i>
-                    <h3>{van.name}</h3>
-                    <h4>${van.price}/day</h4>
-                </div>
-            </div>
-        </div>
-    );
-}
+
 
 export default function HostVanDetail() {
     const { id } = useParams();
     const [currentVan, setCurrentVan] = useState(null);
+
+    
+    const VanDetailSection = ({ van })=> {
+        const activeStyles = {
+            fontWeight: "bold",
+            textDecoration: "underline",
+            color: "#161616",       
+        }
+        
+        return (
+            <div className="host-van-detail-layout-container">
+                <div className="host-van-detail">
+                    <img src={van.imageUrl} alt={van.name} />
+                    <div className="host-van-detail-info-text">
+                        <i className={`van-type van-type-${van.type}`}>
+                            {van.type}
+                        </i>
+                        <h3>{van.name}</h3>
+                        <h4>${van.price}/day</h4>
+                    </div>
+                </div>
+    
+                <nav className="host-van-detail-nav">
+                <NavLink
+                 to='.'
+                 end //This remove the default style on this link
+                  style={({isActive})=> isActive? activeStyles:null}>
+                    Details
+                </NavLink>
+    
+                <NavLink
+                 to='pricing'
+                 style={({isActive})=> isActive? activeStyles:null}>
+                    Pricing
+                </NavLink>
+    
+                <NavLink
+                 to='photos' style={({isActive})=> isActive? activeStyles:null}>
+                    Photos
+                </NavLink>
+    
+                </nav>
+                
+                <Outlet context={{currentVan}}/>
+                
+            </div>
+        );
+    }
 
     useEffect(() => {
         const fetchVanData = async () => {
@@ -38,11 +71,21 @@ export default function HostVanDetail() {
 
     return (
         <section>
+            <Link 
+                to='../'
+                relative="path" //This is to make sure we're going one level up of the hierachy instead of the index route
+                 className='back-button'>
+                    &larr; <span>Bact to all vans</span>
+            </Link>
             {currentVan ? (
                 <VanDetailSection van={currentVan} />
             ) : (
                 <h1>Loading...</h1>
             )}
+
+           
+
+           
         </section>
     );
 }

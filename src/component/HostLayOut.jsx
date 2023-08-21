@@ -3,14 +3,13 @@ import { NavLink, Outlet } from 'react-router-dom';
 import '../index.css';
 
 const HostLayOut = () => {
+
   const activeStyles = {
     fontWeight: "bold",
     textDecoration: "underline",
     color: "#161616",
     
 }
-
-
   return (
     <div>
       <nav className='host-nav'>

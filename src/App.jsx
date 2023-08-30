@@ -11,7 +11,7 @@ import {
 } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
-import Vans, { loader as vansLoader } from './pages/vans/Vans'
+import Vans, { loader, loader as vansLoader } from './pages/vans/Vans'
 import VanDetail, { loader as vansDetailLoader } from './pages/vans/VanDetail'
 import DashBoard from './pages/host/DashBoard'
 import Income from './pages/host/Income'
@@ -26,7 +26,7 @@ import HostVanPricing from './pages/host/HostVanPricing'
 import HostVanPhoto from './pages/host/HostVanPhoto'
 import PageNotFound from './pages/PageNotFound'
 import Error from './component/Error'
-import Login from './pages/Login'
+import Login,{loginLoader} from './pages/Login'
 import { requireAuth } from './utils'
 
 
@@ -39,7 +39,8 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path='about' element={<About />} />
     <Route
       path="login"
-      element={<Login />}
+      element={<Login /> }
+      loader={loginLoader}
     />
     <Route path='vans' element={<Vans />} loader={vansLoader} errorElement={<Error />} />
     <Route path='vans/:id' element={<VanDetail />} loader={vansDetailLoader} />

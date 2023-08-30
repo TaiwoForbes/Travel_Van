@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useParams,Link, Outlet,NavLink } from "react-router-dom";
+import { useParams,Link, Outlet,NavLink, useLoaderData } from "react-router-dom";
+import { getHostVans } from "../../api";
+import { requireAuth } from "../../utils";
 
+
+export async function loader({params}){
+    await requireAuth()
+    return getHostVans(params.id)
+}
 
 
 export default function HostVanDetail() {
-    const { id } = useParams();
-    const [currentVan, setCurrentVan] = useState(null);
+    // const { id } = useParams();
+    // const [currentVan, setCurrentVan] = useState(null);
+    const currentVan = useLoaderData()
 
     
     const VanDetailSection = ({ van })=> {
@@ -55,7 +63,7 @@ export default function HostVanDetail() {
         );
     }
 
-    useEffect(() => {
+/*     useEffect(() => {
         const fetchVanData = async () => {
             try {
                 const response = await fetch(`/api/host/vans/${id}`);
@@ -67,7 +75,7 @@ export default function HostVanDetail() {
         };
 
         fetchVanData();
-    }, [id]);
+    }, [id]); */
 
     return (
         <section>
@@ -77,15 +85,9 @@ export default function HostVanDetail() {
                  className='back-button'>
                     &larr; <span>Bact to all vans</span>
             </Link>
-            {currentVan ? (
+            
                 <VanDetailSection van={currentVan} />
-            ) : (
-                <h1>Loading...</h1>
-            )}
-
-           
-
-           
+                       
         </section>
     );
 }

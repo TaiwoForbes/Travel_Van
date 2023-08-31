@@ -1,10 +1,32 @@
 import React, { useState } from "react"
-import { useNavigate,useSearchParams,useLoaderData } from "react-router-dom"
+import {redirect, useNavigate,useNavigation, useSearchParams, useLoaderData,useActionData,Form } from "react-router-dom"
+import { loginUser } from "../api"
 
 
-export const loginLoader =  ({request})=>{
-    const url =new  URL(request.url).searchParams.get('message')
+export const action = async ({request})=>{
+    const formData = await request.formData()
+    const email = formData.get('email')
+    const password = formData.get('password')
+    //Process the info by passing to the loginUser function
+    try{
+        const data = await loginUser({email,password})
+    localStorage.setItem("loggedIn", true)
     
+    const response = redirect('/host')
+    response.body = true  // It's silly, but it works
+    return response
+    }
+    catch(error){
+        return error.message
+
+    }
+    
+}
+
+
+export const loginLoader = ({ request }) => {
+    const url = new URL(request.url).searchParams.get('message')
+
     return url
 }
 
@@ -12,13 +34,28 @@ export const loginLoader =  ({request})=>{
 
 export default function Login() {
     const [loginFormData, setLoginFormData] = React.useState({ email: "", password: "" })
+    const [status,setStatus] = useState('idle')
+    const navigation = useNavigation().state
+    // const [error,setError] = useState(null)
+
+    const errorMessage = useActionData()
+
     const message = useLoaderData()
+    const navigate = useNavigate()
 
     // const [search,setSearch] = useSearchParams()
     // console.log(search.get('message'))
-    function handleSubmit(e) {
+
+   /*  function handleSubmit(e) {
         e.preventDefault()
-        console.log(loginFormData)
+        setStatus('submitting')
+        setError(null)
+        loginUser(loginFormData)
+        
+        .then(data => navigate("/host",{replace: true}))
+        .catch(err => setError(err))
+        .finally(()=> setStatus('idle'))
+        
     }
 
     function handleChange(e) {
@@ -27,30 +64,32 @@ export default function Login() {
             ...prev,
             [name]: value
         }))
-    }
+    } */
 
     return (
         <div className="login-container">
-            {message && <h2>{message}</h2>}
+            {message && <h3 className="red">{message}</h3>}
+            {errorMessage && <h3 className="red">{errorMessage}</h3>}
             <h1>Sign in to your account</h1>
             {/* Warning goes here. Give it a classname="red" */}
-            <form onSubmit={handleSubmit} className="login-form">
+            <Form method="post" replace className="login-form">
                 <input
                     name="email"
-                    onChange={handleChange}
+                    
                     type="email"
                     placeholder="Email address"
-                    value={loginFormData.email}
+                    
                 />
                 <input
                     name="password"
-                    onChange={handleChange}
+                   
                     type="password"
                     placeholder="Password"
-                    value={loginFormData.password}
+                   
                 />
-                <button>Log in</button>
-            </form>
+                <button disabled={navigation === 'submitting'}>
+                    {navigation === 'submitting'? 'Loggin in....': 'Log in'}</button>
+            </Form>
         </div>
     )
 
